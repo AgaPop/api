@@ -3,11 +3,11 @@
 // service worker registration - remove if you're not going to use it
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('serviceworker.js').then(function(registration) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('serviceworker.js').then(function (registration) {
       // Registration was successful
       console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    }, function(err) {
+    }, function (err) {
       // registration failed :(
       console.log('ServiceWorker registration failed: ', err);
     });
@@ -15,14 +15,20 @@ if ('serviceWorker' in navigator) {
 }
 
 // place your code below
+const list = document.querySelector('.list--js');
 
-fetch('https://api.github.com/users/agapop/repos')
-.then(resp => {
-  console.log(resp)
-})
-.catch(err => {
-  console.log(err);
-})
+fetch('https://api.github.com/users/agapop/repos?sort=updated&direction=desc')
+  .then(resp => resp.json())
+  .then(resp => {
+    console.log(resp)
+    const repos = resp;
+    for (const repo of repos) {
+      list.innerHTML += `<li><a href=" ${repo.html_url}">${repo.name}</a> </li>`;
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  })
 
 
 console.log(`Hello world!`);
