@@ -23,7 +23,12 @@ fetch('https://api.github.com/users/agapop/repos?sort=updated&direction=desc')
     console.log(resp)
     const repos = resp;
     for (const repo of repos) {
-      list.innerHTML += `<li><a href=" ${repo.html_url}">${repo.name}</a> </li>`;
+      // wersja podstawowoa:
+      // list.innerHTML += `<li><a href=" ${repo.html_url}">${repo.name}</a> </li>`;
+
+      // wersja z destrukturyzacja:
+      const {html_url, name} = repo;     
+      list.innerHTML += `<li> <a href="${html_url}"> ${name}</a> </li>`;
     }
   })
   .catch(err => {
